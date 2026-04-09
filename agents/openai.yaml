@@ -1,0 +1,3 @@
+﻿display_name: Exploratory Project Helper
+short_description: Helps structure research-first and discovery-heavy projects.
+default_prompt: Help me structure this exploratory project by building background knowledge, research notes, open questions, and next steps.
