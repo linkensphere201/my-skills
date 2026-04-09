@@ -5,7 +5,7 @@ description: Sync project-local skills into the user's ~/.codex/skills directory
 
 # Sync Project Skills
 
-Sync new or changed skills from `skills/` into `~/.codex/skills/`.
+Sync new or changed skills from `skills/` into the user's Codex skills directory.
 Never delete local skills or extra local files during sync.
 
 ## Inputs
@@ -15,7 +15,7 @@ Accept an optional project root, source path, or one or more skill names.
 Default paths:
 
 - project skills source: `skills/`
-- local target: `~/.codex/skills/`
+- local target: `~/.codex/skills/` on Unix-like systems, or the expanded user profile path on Windows
 
 ## Workflow
 
@@ -40,9 +40,9 @@ Use `scripts/sync_project_skills.py` for the actual file sync.
 Helpful commands:
 
 ```bash
-python3 skills/sync-project-skills/scripts/sync_project_skills.py --dry-run
-python3 skills/sync-project-skills/scripts/sync_project_skills.py
-python3 skills/sync-project-skills/scripts/sync_project_skills.py task-summary-table
+python skills/sync-project-skills/scripts/sync_project_skills.py --dry-run
+python skills/sync-project-skills/scripts/sync_project_skills.py
+python skills/sync-project-skills/scripts/sync_project_skills.py task-summary-table
 ```
 
 ## Working Style
