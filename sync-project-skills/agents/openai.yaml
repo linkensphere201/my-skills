@@ -1,0 +1,4 @@
+interface:
+  display_name: "同步skill"
+  short_description: "Sync project skills to local Codex"
+  default_prompt: "Use $sync-project-skills to sync project skills into ~/.codex/skills without deleting local-only skills."

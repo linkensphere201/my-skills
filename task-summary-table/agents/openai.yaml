@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Summary Table"
+  short_description: "Summarize one task into status tables"
+  default_prompt: "Use $task-summary-table to generate the `任务总表` for task task-name from atlas-ai-docs."
