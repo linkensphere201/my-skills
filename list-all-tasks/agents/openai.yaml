@@ -1,0 +1,4 @@
+interface:
+  display_name: "列出任务"
+  short_description: "List tasks in a compact table"
+  default_prompt: "Use $list-all-tasks to list all current tasks with status, summary, and unfinished items in a compact table."
