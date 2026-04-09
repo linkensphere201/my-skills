@@ -17,6 +17,8 @@
   - generate the standard `任务总表 <task-name>` output from Atlas AI task documents
 - [sync-project-skills/SKILL.md](sync-project-skills/SKILL.md)
   - sync new or changed project skills into `~/.codex/skills/` without deleting local-only skills
+- [list-all-skills/SKILL.md](list-all-skills/SKILL.md)
+  - list project-local skills and local Codex skills, then show shared, project-only, and local-only skills
 
 ## Recommended structure
 
