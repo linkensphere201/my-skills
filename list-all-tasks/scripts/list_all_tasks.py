@@ -42,6 +42,13 @@ def normalize_whitespace(text: str) -> str:
     return " ".join(text.strip().split())
 
 
+def strip_code_quotes(text: str) -> str:
+    stripped = text.strip()
+    if stripped.startswith("`") and stripped.endswith("`") and len(stripped) >= 2:
+        return stripped[1:-1]
+    return stripped
+
+
 def display_status(status: str) -> str:
     mapping = {
         "active": "进行中",
@@ -67,54 +74,6 @@ def is_completed(status: str) -> bool:
     return status.strip().lower() in {"completed", "done"}
 
 
-def extract_first_numbered_item(section_text: str) -> str | None:
-    match = re.search(r"^\d+\.\s+(.*?)(?=\n\d+\. |\n## |\Z)", section_text, re.MULTILINE | re.DOTALL)
-    if not match:
-        return None
-    return normalize_whitespace(match.group(1))
-
-
-def extract_bullet_text(section_text: str) -> str | None:
-    for line in section_text.splitlines():
-        stripped = line.strip()
-        if stripped.startswith("- "):
-            return normalize_whitespace(stripped[2:])
-        if stripped and not stripped.startswith("#"):
-            return normalize_whitespace(stripped)
-    return None
-
-
-def section_text(content: str, heading: str) -> str | None:
-    pattern = rf"^## {re.escape(heading)}\n(?P<body>.*?)(?=^## |\Z)"
-    match = re.search(pattern, content, re.MULTILINE | re.DOTALL)
-    if not match:
-        return None
-    return match.group("body").strip()
-
-
-def extract_unfinished_item(readme_path: Path, status: str) -> str:
-    if is_completed(status):
-        return "-"
-    if not readme_path.is_file():
-        return "未知"
-
-    content = readme_path.read_text(encoding="utf-8")
-
-    todos = section_text(content, "Top todos")
-    if todos:
-        item = extract_first_numbered_item(todos)
-        if item:
-            return truncate(item)
-
-    next_action = section_text(content, "Next action")
-    if next_action:
-        item = extract_bullet_text(next_action)
-        if item:
-            return truncate(item)
-
-    return "未知"
-
-
 def parse_tasks(index_path: Path) -> list[dict[str, str]]:
     content = index_path.read_text(encoding="utf-8")
     tasks = []
@@ -124,18 +83,29 @@ def parse_tasks(index_path: Path) -> list[dict[str, str]]:
     return tasks
 
 
-def render_markdown(rows: list[dict[str, str]]) -> str:
+def sort_key(row: dict[str, str]) -> tuple[str, str]:
+    task = row["task"]
+    match = re.match(r"^(\d{4}-\d{2}-\d{2})-", task)
+    date_prefix = match.group(1) if match else ""
+    return (date_prefix, task)
+
+
+def render_table(title: str, rows: list[dict[str, str]]) -> str:
     lines = [
-        "| 任务 | 状态 | 是否完成 | 任务简述 | 未完成项 |",
-        "| --- | --- | --- | --- | --- |",
+        f"## {title}",
+        "",
+        "| 任务 | 状态 | 任务简述 |",
+        "| --- | --- | --- |",
     ]
+    if not rows:
+        lines.append("| - | - | - |")
+        return "\n".join(lines)
+
     for row in rows:
         values = [
             row["task"],
             row["status"],
-            row["completed"],
             row["summary"],
-            row["unfinished"],
         ]
         escaped = [value.replace("|", "\\|") for value in values]
         lines.append(f"| {' | '.join(escaped)} |")
@@ -151,18 +121,28 @@ def main() -> int:
     rows = []
     for task in tasks:
         readme_path = (index_path.parent / task["path"]).resolve()
-        task_name = task["alias"] or Path(task["path"]).parent.name
+        display_task_name = Path(task["path"]).parent.name
+        raw_status = task["status"]
         rows.append(
             {
-                "task": task_name,
-                "status": display_status(task["status"]),
-                "completed": "是" if is_completed(task["status"]) else "否",
+                "task": display_task_name,
+                "status": display_status(raw_status),
+                "is_completed": is_completed(raw_status),
                 "summary": truncate(task["summary"], 120),
-                "unfinished": extract_unfinished_item(readme_path, task["status"]),
             }
         )
 
-    print(render_markdown(rows))
+    open_rows = [row for row in rows if not row["is_completed"]]
+    done_rows = [row for row in rows if row["is_completed"]]
+    open_rows.sort(key=sort_key, reverse=True)
+    done_rows.sort(key=sort_key, reverse=True)
+
+    output = [
+        render_table("未完成任务", open_rows),
+        "",
+        render_table("已完成任务", done_rows),
+    ]
+    print("\n".join(output))
     return 0
 
 

@@ -21,6 +21,8 @@
   - list project-local skills and local Codex skills, then show shared, project-only, and local-only skills
 - [list-all-tasks/SKILL.md](list-all-tasks/SKILL.md)
   - list all documented tasks with status, summary, and unfinished items in one compact table
+- [create-task/SKILL.md](create-task/SKILL.md)
+  - create a new task document scaffold under `atlas-ai-docs/tasks/` using the project task layout
 
 ## Recommended structure
 
