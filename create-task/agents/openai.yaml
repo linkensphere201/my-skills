@@ -1,4 +1,4 @@
 interface:
-  display_name: "创建任务"
-  short_description: "Create a task doc scaffold"
-  default_prompt: "Use $create-task to create a new task document scaffold under atlas-ai-docs/tasks."
+  display_name: "Create Project Task"
+  short_description: "Create a project-manager task directory"
+  default_prompt: "Use $create-task to create a new project task directory from project-template and update the workspace indexes."

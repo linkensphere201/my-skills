@@ -1,4 +1,4 @@
 interface:
-  display_name: "列出任务"
-  short_description: "List tasks in a compact table"
-  default_prompt: "Use $list-all-tasks to list all current tasks with status, summary, and unfinished items in a compact table."
+  display_name: "List Project Tasks"
+  short_description: "List project-manager tasks"
+  default_prompt: "Use $list-all-tasks to scan the project-manager workspace and list all project tasks with status and next steps."

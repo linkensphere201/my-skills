@@ -1,58 +1,84 @@
 ---
 name: create-task
-description: Create a new Atlas AI task document scaffold under atlas-ai-docs/tasks using the workspace task layout rules. Use when the user wants to create a new task from a task name plus an optional task description, initialize a task README plus subdirectories, or start a large multi-step task with the standard template.
+description: Create a new project task directory in the local project-manager workspace from project-template. Use when the user wants to create a new documented project/task under the workspace root using the YYYY-MM-DD-project-name layout, initialize README/context/tasks/prompts/logs docs, and update the root README plus WORKSPACE-STRUCTURE indexes.
 ---
 
 # Create Task
 
-Create a new task document directory under `atlas-ai-docs/tasks/` using the standard project layout.
-Keep the old shared template file untouched; this skill carries its own template copy for future reuse.
+Create a new project task directory in the local `project-manager` workspace.
+
+This skill is for the workspace shape used by `e:\projects\project-manager`, not the older `atlas-ai-docs/tasks/` layout.
 
 ## Inputs
 
 Accept:
 
-- a task name such as `investigate-foo`
-- an optional task description
+- a project/task name such as `ai-log-analyzer`
+- an optional one-line description
+- an optional current goal or positioning sentence
 
 The generated directory name should be:
 
-- `atlas-ai-docs/tasks/YYYY-MM-DD-<task-name>/`
+- `YYYY-MM-DD-<project-name>/`
 
 ## Workflow
 
-1. Normalize the task name to lowercase hyphen-case.
-2. Use the current date as the task directory prefix.
-3. Create the standard directory layout for every task, regardless of size:
+1. Read the workspace root `AGENTS.md`, `README.md`, and `WORKSPACE-STRUCTURE.md` when present.
+2. Normalize the project name to lowercase hyphen-case.
+3. Use the current date as the directory prefix unless the user gives a date.
+4. Copy `project-template/` into the new project directory.
+5. Initialize the project docs in English unless the user explicitly asks for another language:
    - `README.md`
-   - `findings/README.md`
-   - `plan/README.md`
-   - `implement/README.md`
-   - `test/README.md`
-   - `test/atlas-test.md`
-   - `test/blackbox.md`
-   - `environment.md`
-4. Fill the files using the bundled task template structure.
-5. Append a concise entry to `atlas-ai-docs/tasks.md`.
+   - `context/project-overview.md`
+   - `context/research-notes.md`
+   - `context/architecture.md`
+   - `context/glossary.md`
+   - `tasks/active.md`
+   - `tasks/backlog.md`
+   - `tasks/decisions.md`
+   - `prompts/reusable-prompts.md`
+   - `logs/worklog.md`
+6. Update root `README.md` and `WORKSPACE-STRUCTURE.md` with a concise entry for the new project.
+7. Report created paths and any assumptions.
 
 ## Rules
 
-- Use the task directory under `atlas-ai-docs/tasks/` as the canonical location.
-- Always create a dedicated task directory, even for small tasks.
-- Use `README.md` as the main control page.
-- Keep `tasks.md` concise when updating the index.
-- Do not overwrite an existing task directory.
-- Match the bundled template layout rather than creating a reduced scaffold.
+- Use `project-template/` as the structural source.
+- Do not create `atlas-ai-docs/`.
+- Do not overwrite an existing project directory.
+- Do not treat `skills/` as a normal project folder.
+- Keep AI-maintained project documents in English unless the user explicitly asks otherwise.
+- Keep root index entries concise.
+- Preserve unrelated working tree changes.
 
-## Template Source
+## Script
 
-Use `assets/complex-task-doc-template.md` as the bundled template reference.
-Use `scripts/create_task.py` for deterministic scaffold creation.
+Use `scripts/create_task.py` for deterministic project creation.
+
+Example:
+
+```powershell
+python skills\create-task\scripts\create_task.py ai-log-analyzer --description "AI-powered log diagnosis tool"
+```
+
+Windows PowerShell wrapper:
+
+```powershell
+.\skills\create-task\scripts\create_task.ps1 ai-log-analyzer --description "AI-powered log diagnosis tool"
+```
+
+Useful options:
+
+```powershell
+python skills\create-task\scripts\create_task.py info-collection-system --project-root .
+python skills\create-task\scripts\create_task.py a-share-stock-picker --date 2026-04-20 --description "Medium-to-low-frequency A-share stock selection tool"
+```
 
 ## Working Style
 
 When you create a task, report:
 
-- the created task path
-- that `tasks.md` was updated
-- any assumptions used for the task description
+- the created project directory
+- that root indexes were updated
+- the main active task that was initialized
+- any assumptions used for the description or scope

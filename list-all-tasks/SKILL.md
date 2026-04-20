@@ -1,69 +1,78 @@
 ---
 name: list-all-tasks
-description: 用中文列出所有已记录任务，并分成未完成和已完成两个紧凑表格展示状态和任务简述。适用于用户要求列出当前任务、查看任务进展概览、或汇总 atlas-ai-docs 任务状态时。
+description: List all documented project-manager workspace tasks in compact Chinese tables by scanning YYYY-MM-DD-* project directories. Use when the user asks to show current tasks, list local projects, summarize project status, or review active/completed work in the project-manager workspace.
 ---
 
-# 列出所有任务
+# List All Tasks
 
-从 `atlas-ai-docs/tasks.md` 读取已登记任务，并输出中文紧凑状态表。
-结果分成“未完成任务”和“已完成任务”两个表格，只展示任务、状态和任务简述。
-任务名保持原始的日期加英文 task 格式，不要翻译任务名本身，也不要用 alias 替代任务目录名。
+List project/task status for the local `project-manager` workspace.
+
+This skill scans root-level `YYYY-MM-DD-*` project directories. It does not read the older `atlas-ai-docs/tasks.md` index.
 
 ## Inputs
 
-接受可选的项目根目录、任务索引路径或输出格式。
+Accept optional values:
 
-默认数据源：
+- project root path
+- output format, currently `markdown`
+- include/exclude completed-only grouping behavior through script options if added later
 
-- task index: `atlas-ai-docs/tasks.md`
-- task details: `atlas-ai-docs/tasks/<task-name>/README.md`
+Default project root:
+
+- current working directory
 
 ## Workflow
 
-1. 读取 `atlas-ai-docs/tasks.md`。
-2. 提取每个任务条目的：
-   - 任务名
-   - 状态
-   - 简述
-   - 可选别名
-3. 将 `Summary` 从原始文档语言直接翻译成自然中文。
-4. 按任务目录名前缀日期从新到旧排序。
-5. 先输出未完成任务表，再输出已完成任务表。
+1. Scan direct child directories whose names match `YYYY-MM-DD-*`.
+2. Ignore non-project directories such as `.git`, `.vscode`, `skills`, and `project-template`.
+3. For each project directory, read:
+   - `README.md`
+   - `tasks/active.md`
+4. Extract:
+   - project directory name
+   - project title
+   - current status
+   - current active task
+   - next step
+   - short summary
+5. Split output into unfinished and completed project tables.
+6. Sort both tables by project directory date from newest to oldest.
+7. Output concise Chinese markdown tables for conversation use.
 
 ## Output Contract
 
-使用两张紧凑表格，顺序为：
+Use two compact tables in this order:
 
 1. `未完成任务`
 2. `已完成任务`
 
-每张表的列为：
+Columns:
 
-- `任务`
+- `项目`
 - `状态`
-- `任务简述`
-
-`状态` 优先显示中文归一化结果。
-`任务简述` 使用读取到的原始 DOC 内容现场翻译成中文，不要依赖预置映射表。
+- `当前任务`
+- `下一步`
 
 ## Rules
 
-- 将 `completed` 和 `done` 视为已完成任务。
-- 未完成任务只能出现在第一张表。
-- 已完成任务只能出现在第二张表。
-- 两张表内部都按任务日期从新到旧排序。
-- 不要为任务摘要维护硬编码翻译字典。
-- 直接根据当前 DOC 文本内容翻译，避免脚本内翻译映射与 DOC 漂移。
-- 单元格内容尽量简短，优先单行展示。
+- Keep project directory names unchanged.
+- Use Chinese status labels in output.
+- Treat a project as completed only when `tasks/active.md` has no active checkbox task and the completed section contains completed items.
+- If a field is missing, output `-` rather than failing.
+- Do not modify any project files.
 
 ## Script
 
-使用 `scripts/list_all_tasks.py` 完成解析与表格输出。
+Use `scripts/list_all_tasks.py`.
 
-常用命令：
+Windows PowerShell:
 
-```bash
-python3 skills/list-all-tasks/scripts/list_all_tasks.py
-python3 skills/list-all-tasks/scripts/list_all_tasks.py --project-root .
-python3 skills/list-all-tasks/scripts/list_all_tasks.py --format markdown
+```powershell
+powershell -ExecutionPolicy Bypass -File skills\list-all-tasks\scripts\list_all_tasks.ps1 --project-root .
+```
+
+Python directly:
+
+```powershell
+python skills\list-all-tasks\scripts\list_all_tasks.py --project-root .
 ```

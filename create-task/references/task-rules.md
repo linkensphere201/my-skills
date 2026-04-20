@@ -1,66 +1,59 @@
-# Task Document Rules
+# Project Task Rules
 
 Source of truth:
 
-- `AGENTS.md`
-- `atlas-ai-docs/tasks.md`
+- root `AGENTS.md`
+- root `README.md`
+- root `WORKSPACE-STRUCTURE.md`
+- `project-template/`
 
-## Required behavior
+## Required Behavior
 
-- Create new large-task docs under `atlas-ai-docs/tasks/YYYY-MM-DD-<task-name>/`.
-- Create new task docs under `atlas-ai-docs/tasks/YYYY-MM-DD-<task-name>/` for every task, regardless of size.
-- Use `README.md` as the main control page.
-- Keep `atlas-ai-docs/tasks.md` as a concise index only.
-- Do not overwrite an existing task directory.
+- Create new project/task directories at the workspace root.
+- Use the directory name shape `YYYY-MM-DD-<project-name>/`.
+- Start from `project-template/`.
+- Keep each project self-contained.
+- Update root `README.md` and `WORKSPACE-STRUCTURE.md`.
+- Keep AI-maintained project documents in English unless the user explicitly asks for another language.
 
-## Recommended layout
+## Expected Project Layout
 
-- `README.md`
-- `findings/README.md`
-- `plan/README.md`
-- `implement/README.md`
-- `test/README.md`
-- `test/atlas-test.md`
-- `test/blackbox.md`
-- `environment.md`
+```text
+YYYY-MM-DD-project-name/
+  AGENTS.md
+  README.md
+  context/
+    architecture.md
+    glossary.md
+    project-overview.md
+    research-notes.md
+  tasks/
+    active.md
+    backlog.md
+    decisions.md
+  prompts/
+    reusable-prompts.md
+  logs/
+    worklog.md
+```
 
-## Topic sub-document structure
+## Document Expectations
 
-- Use this section order for topic-specific sub-documents:
-  - `# Task: <main-task> / <topic>`
-  - `## Scope`
-  - `## Current conclusion`
-  - `## Findings`
-  - `## Open questions`
-  - `## Todo / Next steps`
-  - `## References`
+- `README.md`: concise product/task positioning, current goals, scope, non-goals, directory guide.
+- `context/project-overview.md`: background, goals, non-goals, key questions.
+- `context/research-notes.md`: early observations, candidate sources or approaches, open questions.
+- `context/architecture.md`: initial system or workflow concept.
+- `context/glossary.md`: terms that future collaborators should read consistently.
+- `tasks/active.md`: one active task with owner and next step.
+- `tasks/backlog.md`: prioritized follow-up tasks.
+- `tasks/decisions.md`: decision log with date, reason, and impact.
+- `logs/worklog.md`: chronological work notes.
+- `prompts/reusable-prompts.md`: only prompts likely to be reused.
 
-## Section expectations
+## Index Entry Shape
 
-- `Scope`
-  - define what is in scope and out of scope for the topic
-- `Current conclusion`
-  - summarize confirmed conclusions, unresolved points, and whether code changes are needed now
-- `Findings`
-  - use numbered findings
-  - each finding should preferably include:
-    - `Summary`
-    - `Severity`
-    - `Evidence`
-    - `Impact`
-    - `Current conclusion`
-    - `Follow-up`
-- `Open questions`
-  - list unresolved design or verification questions
-- `Todo / Next steps`
-  - list topic-local next steps, preferably with priorities such as `P0` or `P1`
-- `References`
-  - include relevant commits, files, tests, and related notes or Jira references when available
+Root `README.md` should include one concise bullet in the current subdirectory section.
 
-## Index entry shape
+Root `WORKSPACE-STRUCTURE.md` should include one concise row in the ordinary project directories table.
 
-- task link
-- `Status`
-- `Summary`
-
-Keep the index entry brief.
+Keep entries short and avoid duplicating full project details in the root files.
