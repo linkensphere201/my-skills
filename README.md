@@ -23,6 +23,8 @@
   - list all documented tasks with status, summary, and unfinished items in one compact table
 - [create-task/SKILL.md](create-task/SKILL.md)
   - create a new task document scaffold under `atlas-ai-docs/tasks/` using the project task layout
+- [start-background-task/SKILL.md](start-background-task/SKILL.md)
+  - start a long-running background job with tmux and verify that it is really running
 
 ## Recommended structure
 

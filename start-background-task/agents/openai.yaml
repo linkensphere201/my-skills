@@ -1,0 +1,4 @@
+interface:
+  display_name: "起后台任务"
+  short_description: "Run long jobs in tmux"
+  default_prompt: "Use $start-background-task to launch and verify a long-running background job with tmux."
