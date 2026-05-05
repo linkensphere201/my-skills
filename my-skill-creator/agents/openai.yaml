@@ -1,0 +1,4 @@
+interface:
+  display_name: "My Skill Creator"
+  short_description: "Create skills and sync my-skills repo."
+  default_prompt: "创建 skill：\n用途：\n触发场景："

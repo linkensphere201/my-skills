@@ -1,0 +1,4 @@
+interface:
+  display_name: "重构"
+  short_description: "Draft, confirm, and execute code refactors with tests."
+  default_prompt: "重构目标：\\n大体方案："
