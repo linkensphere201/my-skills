@@ -21,7 +21,7 @@ Do not use this skill when:
 1. Read `references/workflow.md` for the standard exploratory workflow.
 2. Read `references/doc-structure.md` when creating or updating project documents.
 3. Read `references/pitfalls.md` if the project is ambiguous or repeatedly changing direction.
-4. Use `scripts/init-exploratory-project.ps1` when the task is to initialize a fresh exploratory project folder from a standard structure.
+4. Use `scripts/init_exploratory_project.py` when the task is to initialize a fresh exploratory project folder from a standard structure.
 
 ## Core Rules
 - Start with fact gathering and concept clarification before proposing solutions.
@@ -44,4 +44,4 @@ Do not use this skill when:
 
 ## Scripted Path
 If the task is to create a new exploratory project skeleton, run:
-- `scripts/init-exploratory-project.ps1`
+- `python3 scripts/init_exploratory_project.py <target-path>`

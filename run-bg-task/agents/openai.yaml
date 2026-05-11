@@ -1,0 +1,4 @@
+interface:
+  display_name: "Run Background Task"
+  short_description: "Start and monitor Linux background commands with log files."
+  default_prompt: "Start this long-running Linux command in the background and report progress from its log."

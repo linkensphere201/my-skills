@@ -13,9 +13,9 @@ Use this skill as the user's personal wrapper around the system `skill-creator` 
 
 Use this order unless the user says otherwise:
 
-1. Create or update the canonical copy in the workspace skills repository: `e:\projects\project-manager\skills\<skill-name>\`.
+1. Create or update the canonical copy in the workspace skills repository: `/dev-app-01/dev/project-manager/skills/<skill-name>/`.
 2. Validate the skill there.
-3. Sync or mirror it into the local Codex skills directory: `C:\Users\hp\.codex\skills\<skill-name>\`, when the user wants the skill available immediately.
+3. Sync or mirror it into the local Codex skills directory: `~/.codex/skills/<skill-name>/`, when the user wants the skill available immediately.
 
 Do not delete local-only skills or unrelated untracked skill directories.
 
@@ -47,8 +47,8 @@ If the user already supplied enough information, proceed without extra questions
 
 Create the canonical skill under the workspace `skills/` repository. Prefer:
 
-```powershell
-python C:\Users\hp\.codex\skills\.system\skill-creator\scripts\init_skill.py <skill-name> --path e:\projects\project-manager\skills
+```bash
+python3 /dev-app-01/.codex/skills/.system/skill-creator/scripts/init_skill.py <skill-name> --path /dev-app-01/dev/project-manager/skills
 ```
 
 Then edit `SKILL.md` and `agents/openai.yaml` as needed.
@@ -57,13 +57,13 @@ Then edit `SKILL.md` and `agents/openai.yaml` as needed.
 
 Run `quick_validate.py` on the repository copy. If the system Python lacks dependencies, use the project virtual environment when available.
 
-```powershell
-e:\projects\project-manager\stock-picker\.venv\Scripts\python.exe C:\Users\hp\.codex\skills\.system\skill-creator\scripts\quick_validate.py e:\projects\project-manager\skills\<skill-name>
+```bash
+python3 /dev-app-01/.codex/skills/.system/skill-creator/scripts/quick_validate.py /dev-app-01/dev/project-manager/skills/<skill-name>
 ```
 
 ### 5. Sync Local Copy
 
-When immediate local availability is requested, mirror the final repository copy into `C:\Users\hp\.codex\skills\<skill-name>\`.
+When immediate local availability is requested, mirror the final repository copy into `~/.codex/skills/<skill-name>/`.
 
 Preserve the repository copy as canonical. If both copies already exist, compare before overwriting and avoid touching unrelated local skills.
 

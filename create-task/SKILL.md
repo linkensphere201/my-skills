@@ -57,11 +57,11 @@ Use `scripts/create_task.py` for deterministic project creation.
 
 Example:
 
-```powershell
-python skills\create-task\scripts\create_task.py ai-log-analyzer --description "AI-powered log diagnosis tool"
+```bash
+python3 skills/create-task/scripts/create_task.py ai-log-analyzer --description "AI-powered log diagnosis tool"
 ```
 
-Windows PowerShell wrapper:
+Windows-only PowerShell wrapper:
 
 ```powershell
 .\skills\create-task\scripts\create_task.ps1 ai-log-analyzer --description "AI-powered log diagnosis tool"
@@ -69,9 +69,9 @@ Windows PowerShell wrapper:
 
 Useful options:
 
-```powershell
-python skills\create-task\scripts\create_task.py info-collection-system --project-root .
-python skills\create-task\scripts\create_task.py a-share-stock-picker --date 2026-04-20 --description "Medium-to-low-frequency A-share stock selection tool"
+```bash
+python3 skills/create-task/scripts/create_task.py info-collection-system --project-root .
+python3 skills/create-task/scripts/create_task.py a-share-stock-picker --date 2026-04-20 --description "Medium-to-low-frequency A-share stock selection tool"
 ```
 
 ## Working Style

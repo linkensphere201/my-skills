@@ -65,14 +65,14 @@ Columns:
 
 Use `scripts/list_all_tasks.py`.
 
-Windows PowerShell:
+Linux:
+
+```bash
+python3 skills/list-all-tasks/scripts/list_all_tasks.py --project-root .
+```
+
+Windows-only PowerShell wrapper:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File skills\list-all-tasks\scripts\list_all_tasks.ps1 --project-root .
-```
-
-Python directly:
-
-```powershell
-python skills\list-all-tasks\scripts\list_all_tasks.py --project-root .
 ```

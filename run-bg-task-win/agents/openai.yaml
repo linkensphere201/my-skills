@@ -1,4 +1,0 @@
-interface:
-  display_name: "Run Background Task Win"
-  short_description: "Start and monitor Windows background commands with log files."
-  default_prompt: "Start this long-running Windows command in the background and report progress from its log."
