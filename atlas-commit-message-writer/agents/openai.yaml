@@ -1,0 +1,4 @@
+interface:
+  display_name: "Atlas Commit Message Writer"
+  short_description: "Generate and commit accurate Atlas messages from real diffs"
+  default_prompt: "Use $atlas-commit-message-writer to write or commit an accurate message for current Atlas workspace changes."
