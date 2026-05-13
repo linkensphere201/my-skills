@@ -1,22 +1,23 @@
 ---
 name: atlas-commit-message-writer
-description: Use when the user asks to write, improve, review, or create a commit message for Atlas workspace changes, or asks to commit code/doc changes. This skill inspects the actual staged or working diff, respects Atlas repository boundaries, generates an accurate commit message, and only commits when the user explicitly asks.
+description: Use when the user asks to write, improve, review, or create a commit message for this Windows project-manager workspace, or asks to commit code/doc changes. This skill inspects the actual staged or working diff, respects local repository boundaries, generates an accurate commit message, and only commits when the user explicitly asks.
 metadata:
-  short-description: Write Atlas commit messages from real diffs
+  short-description: Write workspace commit messages from real diffs
 ---
 
-# Atlas Commit Message Writer
+# Commit Message Writer
 
-Use this skill for commit-message writing and commit execution in the Atlas workspace.
+Use this skill for commit-message writing and commit execution in the Windows project-manager workspace.
 
 ## Repository Boundaries
 
-The workspace contains separate repositories:
+The workspace contains separate repositories. Resolve aliases from the workspace docs before choosing a target repository.
 
-- Root repository: AI docs and workspace files such as `atlas-ai-docs/`
-- `atlas/`: Atlas product code
-- `atlas-test/`: E2E test framework and test cases
-- `atlas-studio/`: frontend repository
+Common repositories:
+
+- DOC/root repository: `E:\projects\project-manager`, for AI-maintained docs, task records, prompts, and workspace files.
+- STOCK repository: `E:\projects\project-manager\stock-picker` junctioning to `E:\projects\stock-picker`, for stock-picker code, desktop worker, tests, and stock-picker docs.
+- SKILLS repository: `E:\projects\project-manager\skills` junctioning to `E:\projects\skills`, for project-local Codex skills.
 
 Never mix staging, status, diff, or commits across repositories.
 
@@ -24,18 +25,18 @@ When the target repository is unclear, inspect the relevant git status first and
 
 ## Commit Policy
 
-- For `atlas/` and `atlas-test/`, do not commit unless the user explicitly asks to commit.
-- For root `atlas-ai-docs/`, stable documentation updates may be committed when appropriate.
+- Do not commit unless the user explicitly asks to commit.
 - Always base the message on the actual diff, preferably staged diff.
 - If staged diff is empty, inspect working diff and either:
   - generate a suggested message for the working diff, or
   - stage only the files explicitly relevant to the user's request when the user asked to commit.
 - Do not include unrelated files in the commit.
 - Never delete files as part of this skill.
+- On Windows, prefer non-interactive `git` commands and keep each command scoped with `git -C <repo>`.
 
 ## Workflow
 
-1. Identify the target repository.
+1. Identify the target repository and current branch.
 2. Inspect `git status --short`.
 3. Inspect staged diff with `git diff --cached --stat` and, when needed, `git diff --cached`.
 4. If staged diff is empty and the user asked to commit, inspect working diff and stage only relevant files.
@@ -77,9 +78,9 @@ Prefer these types:
 Use scope when it clarifies the affected area:
 
 ```text
-fix(truncate): Restore sync lifecycle guards
-docs(truncate): Record query meta propagation plan
-test(store): Cover truncate graph failure propagation
+fix(worker): Track child process shutdown
+feat(skills): Add commit message writer
+chore(sync): Align local Codex skills
 ```
 
 ## Subject Rules
@@ -95,19 +96,19 @@ test(store): Cover truncate graph failure propagation
 Good:
 
 ```text
-fix(truncate): Make graph truncate synchronous
+feat(skills): Add workspace commit message writer
 ```
 
 Also acceptable for local repo style:
 
 ```text
-fix truncate sync P0 regressions
+feat: add workspace commit message writer
 ```
 
 Bad:
 
 ```text
-fixed truncate
+fixed stuff
 update files
 changes for review
 ```
@@ -127,16 +128,16 @@ The body must list concrete change points from the actual diff:
 Example:
 
 ```text
-fix(truncate): Make graph truncate synchronous
+feat(skills): Add workspace commit message writer
 
-Wait for all label truncate futures before truncate_graph returns.
-Restore write_flag and index-state checks before label truncate.
-Pass graph query_meta through store truncate handlers without store-side commit.
+Adapt repository boundaries for DOC, STOCK, and SKILLS.
+Document Windows-scoped git command expectations.
+Add the local skill metadata used by Codex discovery.
 ```
 
 ## Footer Rules
 
-Use a footer for related commit or issue metadata, or incompatible behavior changes. The footer must be separated from the body by a blank line.
+Use a footer for related commit or issue metadata, incompatible behavior changes, or verified test coverage. The footer must be separated from the body by a blank line.
 
 Footer entries may include:
 
@@ -146,19 +147,6 @@ Footer entries may include:
 - `BREAKING CHANGE:` entries
 
 Only write `Tested:` when there is real self-test coverage from this change. The value should summarize the verified cases or scenarios in natural language, not list the exact shell command. If no self-test covered the change, omit `Tested:` entirely.
-
-Examples:
-
-```text
-feat(api): Change user endpoint response format
-
-Update the user response serializer.
-Rename the response identifier field.
-
-Related to: cbe8e421, AG-4057
-Tested: Verified suite compilation without running service cases
-BREAKING CHANGE: User API now returns `userId` instead of `id`
-```
 
 Only add `BREAKING CHANGE:` when callers, stored data, APIs, CLI behavior, config, or compatibility are intentionally broken.
 

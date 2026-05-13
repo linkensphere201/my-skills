@@ -23,6 +23,8 @@
   - list all documented tasks with status, summary, and unfinished items in one compact table
 - [create-task/SKILL.md](create-task/SKILL.md)
   - create a new task document scaffold under `atlas-ai-docs/tasks/` using the project task layout
+- [atlas-commit-message-writer/SKILL.md](atlas-commit-message-writer/SKILL.md)
+  - write accurate commit messages from staged or working diffs while respecting repository boundaries
 
 ## Recommended structure
 
