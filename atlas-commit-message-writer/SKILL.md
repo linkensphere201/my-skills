@@ -1,13 +1,13 @@
 ---
 name: atlas-commit-message-writer
-description: Use when the user asks to write, improve, review, or create a commit message for this Windows project-manager workspace, or asks to commit code/doc changes. This skill inspects the actual staged or working diff, respects local repository boundaries, generates an accurate commit message, and only commits when the user explicitly asks.
+description: Use when the user asks to write, improve, review, or create a commit message for this Linux project-manager workspace, or asks to commit code/doc changes. This skill inspects the actual staged or working diff, respects local repository boundaries, generates an accurate commit message, and only commits when the user explicitly asks.
 metadata:
   short-description: Write workspace commit messages from real diffs
 ---
 
 # Commit Message Writer
 
-Use this skill for commit-message writing and commit execution in the Windows project-manager workspace.
+Use this skill for commit-message writing and commit execution in the Linux project-manager workspace.
 
 ## Repository Boundaries
 
@@ -15,9 +15,10 @@ The workspace contains separate repositories. Resolve aliases from the workspace
 
 Common repositories:
 
-- DOC/root repository: `E:\projects\project-manager`, for AI-maintained docs, task records, prompts, and workspace files.
-- STOCK repository: `E:\projects\project-manager\stock-picker` junctioning to `E:\projects\stock-picker`, for stock-picker code, desktop worker, tests, and stock-picker docs.
-- SKILLS repository: `E:\projects\project-manager\skills` junctioning to `E:\projects\skills`, for project-local Codex skills.
+- DOC/root repository: `/dev-app-01/dev/project-manager`, for AI-maintained docs, task records, prompts, and workspace files.
+- STOCK-APP repository: `/dev-app-01/dev/project-manager/stock-app`, for the BunnyLab commercial app code, tests, Prisma schema, and app docs.
+- STOCK-PICKER repository: `/dev-app-01/dev/project-manager/stock-picker`, for stock-picker code, desktop worker, tests, and runtime docs.
+- SKILLS repository: `/dev-app-01/dev/project-manager/skills`, for project-local Codex skills.
 
 Never mix staging, status, diff, or commits across repositories.
 
@@ -32,7 +33,7 @@ When the target repository is unclear, inspect the relevant git status first and
   - stage only the files explicitly relevant to the user's request when the user asked to commit.
 - Do not include unrelated files in the commit.
 - Never delete files as part of this skill.
-- On Windows, prefer non-interactive `git` commands and keep each command scoped with `git -C <repo>`.
+- On Linux, prefer non-interactive `git` commands and keep each command scoped with `git -C <repo>` when operating outside the current directory.
 
 ## Workflow
 
@@ -130,8 +131,8 @@ Example:
 ```text
 feat(skills): Add workspace commit message writer
 
-Adapt repository boundaries for DOC, STOCK, and SKILLS.
-Document Windows-scoped git command expectations.
+Adapt repository boundaries for DOC, STOCK-APP, STOCK-PICKER, and SKILLS.
+Document Linux-scoped git command expectations.
 Add the local skill metadata used by Codex discovery.
 ```
 

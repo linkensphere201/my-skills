@@ -1,4 +1,4 @@
 interface:
-  display_name: "Commit Message Writer"
-  short_description: "Generate and commit accurate workspace messages from real diffs"
-  default_prompt: "Use $atlas-commit-message-writer to write or commit an accurate message for current workspace changes."
+  display_name: "Workspace Commit Message Writer"
+  short_description: "Generate and commit accurate Linux workspace messages from real diffs"
+  default_prompt: "Use $atlas-commit-message-writer to write or commit an accurate message for the current workspace changes."
