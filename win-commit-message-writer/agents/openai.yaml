@@ -1,0 +1,4 @@
+interface:
+  display_name: "Windows Commit Message Writer"
+  short_description: "Generate and commit accurate workspace messages from real diffs"
+  default_prompt: "Use $win-commit-message-writer to write or commit an accurate message for current workspace changes."

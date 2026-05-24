@@ -1,11 +1,11 @@
 ---
-name: atlas-commit-message-writer
+name: win-commit-message-writer
 description: Use when the user asks to write, improve, review, or create a commit message for this Windows project-manager workspace, or asks to commit code/doc changes. This skill inspects the actual staged or working diff, respects local repository boundaries, generates an accurate commit message, and only commits when the user explicitly asks.
 metadata:
   short-description: Write workspace commit messages from real diffs
 ---
 
-# Commit Message Writer
+# Windows Commit Message Writer
 
 Use this skill for commit-message writing and commit execution in the Windows project-manager workspace.
 
