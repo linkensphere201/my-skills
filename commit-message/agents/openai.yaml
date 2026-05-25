@@ -1,0 +1,4 @@
+interface:
+  display_name: "提交信息"
+  short_description: "Format Atlas commit messages with wrapped body and provenance footers"
+  default_prompt: "Use $commit-message when creating, amending, squashing, or reviewing Atlas git commit messages."
