@@ -53,6 +53,24 @@ Optional additions:
      - `background`
      - `performance`
 6. When calling out key code, prefer line-numbered references.
+7. For non-trivial design or optimization work, use a two-level design flow.
+   - First freeze the architecture-level direction, boundaries, rollout phases, fallback strategy, and validation target.
+   - Before implementing each item, perform a code-level design review against the current code.
+   - The code-level review may refine, split, downgrade, replace, or overturn the earlier design when code evidence shows that is necessary.
+   - Record the code-level review conclusion in the task DOC before coding.
+
+## Code-level design review gate
+
+Before implementing a non-trivial design item, add or update a section under `plan/` or `implement/` that records:
+
+- Code entrypoints inspected
+- Existing implementation shape
+- Confirmed reuse points
+- Rejected assumptions
+- Final implementation boundary
+- Test impact
+
+Implementation should start only after this review conclusion is recorded.
 
 ## Recommended status model
 

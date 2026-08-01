@@ -147,6 +147,10 @@ Footer entries may include:
 
 Only write `Tested:` when there is real self-test coverage from this change. The value should summarize the verified cases or scenarios in natural language, not list the exact shell command. If no self-test covered the change, omit `Tested:` entirely.
 
+When multiple footer entries are needed, write them as consecutive footer lines without blank lines between them. In particular, multiple `Tested:` lines must stay in one footer block. Do not create one paragraph per `Tested:` entry.
+
+When creating or amending commits from the shell, avoid using separate `git commit -m` or `git commit --amend -m` arguments for each footer line, because Git treats each `-m` as a separate paragraph and inserts blank lines. Prefer a single message file, or one body argument that contains all footer lines separated by newlines.
+
 Examples:
 
 ```text

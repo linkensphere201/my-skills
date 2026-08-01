@@ -12,6 +12,7 @@ Source of truth:
 - Use `README.md` as the main control page.
 - Keep `atlas-ai-docs/tasks.md` as a concise index only.
 - Do not overwrite an existing task directory.
+- For non-trivial design or optimization work, record a code-level design review before implementation begins.
 
 ## Recommended layout
 
@@ -23,6 +24,24 @@ Source of truth:
 - `test/atlas-test.md`
 - `test/blackbox.md`
 - `environment.md`
+
+## Code-level design review gate
+
+For non-trivial design or optimization work, use a two-level design flow:
+
+1. Freeze the architecture-level direction, boundaries, rollout phases, fallback strategy, and validation target.
+2. Before implementing each item, review the current code and record the code-level design conclusion.
+
+The code-level review may refine, split, downgrade, replace, or overturn the earlier design when code evidence requires it.
+
+Record at least:
+
+- Code entrypoints inspected
+- Existing implementation shape
+- Confirmed reuse points
+- Rejected assumptions
+- Final implementation boundary
+- Test impact
 
 ## Topic sub-document structure
 

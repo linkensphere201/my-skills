@@ -63,7 +63,7 @@ README_TEMPLATE = """# Task: {title}
 
 SUBDOC_TEMPLATES = {
     "findings/README.md": "# Task Findings\n\n## Scope\n\n- This directory tracks finding-oriented notes for the task.\n",
-    "plan/README.md": "# Task Plans\n\n## Scope\n\n- This directory tracks planning-oriented notes for the task.\n",
+    "plan/README.md": "# Task Plans\n\n## Scope\n\n- This directory tracks planning-oriented notes for the task.\n\n## Code-Level Design Review Gate\n\nBefore implementing a non-trivial design item, record:\n\n- Code entrypoints inspected\n- Existing implementation shape\n- Confirmed reuse points\n- Rejected assumptions\n- Final implementation boundary\n- Test impact\n\nImplementation should start only after this review conclusion is recorded. The review may refine, split, downgrade, replace, or overturn an earlier architecture plan when code evidence requires it.\n",
     "implement/README.md": "# Task Implementation Notes\n\n## Scope\n\n- This directory tracks implementation-oriented notes for the task.\n",
     "test/README.md": "# Task Tests\n\n## Scope\n\n- This directory tracks verification and test notes for the task.\n",
     "test/atlas-test.md": "# Atlas-Test Notes\n\n## Scope\n\n- Record atlas-test execution notes for this task.\n",

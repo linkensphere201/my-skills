@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare documented, isolated subagent work without committing or deleting."""
+"""Prepare documented, branch-isolated subagent work without committing or deleting."""
 
 from __future__ import annotations
 
@@ -76,7 +76,21 @@ def parser() -> argparse.ArgumentParser:
     arg_parser.add_argument("--title", required=True, help="Human-readable subtask title.")
     arg_parser.add_argument("--baseline", default="HEAD", help="Committed baseline ref.")
     arg_parser.add_argument("--suffix", help="Unique runtime suffix; defaults to a UTC timestamp.")
-    arg_parser.add_argument("--branch", help="Optional temporary branch. Detached worktree is the default.")
+    arg_parser.add_argument(
+        "--branch",
+        help="Optional temporary branch name. Defaults to codex/subagent/<slug>-<suffix>.",
+    )
+    arg_parser.add_argument(
+        "--overlap-with",
+        action="append",
+        default=[],
+        help="Active agent or subtask with an overlapping write set. Repeat as needed.",
+    )
+    arg_parser.add_argument(
+        "--integration-order",
+        default="main-agent review order",
+        help="Planned cherry-pick/integration position for this task.",
+    )
     arg_parser.add_argument("--requirement", action="append", required=True)
     arg_parser.add_argument("--non-goal", action="append", required=True)
     arg_parser.add_argument("--write-path", action="append", required=True)
@@ -92,9 +106,6 @@ def main() -> int:
     args = parser().parse_args()
     if not SLUG_RE.fullmatch(args.slug):
         raise PreparationError("--slug must contain lowercase letters, digits, and single hyphens only")
-    if args.branch and (not BRANCH_RE.fullmatch(args.branch) or ".." in args.branch):
-        raise PreparationError("--branch contains unsupported characters")
-
     workspace = Path(args.workspace_root).expanduser().resolve()
     if not workspace.is_dir():
         raise PreparationError(f"workspace root is not a directory: {workspace}")
@@ -129,14 +140,15 @@ def main() -> int:
     baseline_result = run_git(repository, "rev-parse", "--verify", f"{args.baseline}^{{commit}}")
     baseline_commit = baseline_result.stdout.strip()
 
-    if args.branch:
-        branch_result = run_git(repository, "show-ref", "--verify", f"refs/heads/{args.branch}", check=False)
-        if branch_result.returncode == 0:
-            raise PreparationError(f"branch already exists: {args.branch}")
-
     suffix = args.suffix or datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
     if not re.fullmatch(r"[A-Za-z0-9._-]+", suffix):
         raise PreparationError("--suffix contains unsupported characters")
+    branch = args.branch or f"codex/subagent/{args.slug}-{suffix}"
+    if not BRANCH_RE.fullmatch(branch) or ".." in branch:
+        raise PreparationError("--branch contains unsupported characters")
+    branch_result = run_git(repository, "show-ref", "--verify", f"refs/heads/{branch}", check=False)
+    if branch_result.returncode == 0:
+        raise PreparationError(f"branch already exists: {branch}")
     repo_name = re.sub(r"[^A-Za-z0-9._-]+", "-", repository.name)
     runtime_dir = (workspace / "tmp" / "subagents" / f"{repo_name}-{args.slug}-{suffix}").resolve()
     require_under(runtime_dir, workspace / "tmp", "runtime directory")
@@ -157,7 +169,7 @@ def main() -> int:
         if f"/{args.slug}/README.md" in registry_content or f"-{args.slug}-" in registry_content:
             raise PreparationError(f"subtask already appears in registry: {args.slug}")
 
-    branch_display = args.branch or f"detached at {baseline_commit[:12]}"
+    overlap_display = markdown_list(f"`{item}`" for item in args.overlap_with) if args.overlap_with else "- None"
     task_content = f"""# Subagent: {args.title}
 
 ## Status
@@ -169,7 +181,17 @@ def main() -> int:
 - Baseline: `{baseline_commit}`
 - Runtime: `{runtime_dir}`
 - Worktree: `{worktree}`
-- Branch: `{branch_display}`
+- Branch: `{branch}`
+
+## Integration
+
+- Mode: branch-isolated review and main-agent integration
+- Planned order: {args.integration_order}
+- Conflict owner: main agent
+- Child commit policy: no commit before main-agent acceptance
+- Overlaps:
+
+{overlap_display}
 
 ## Requirements
 
@@ -219,7 +241,9 @@ None.
 
 ## Final Review
 
-Pending main-agent review. The subagent must not commit or integrate changes.
+Pending main-agent review. After acceptance and repository approval, the main
+agent creates a reviewed branch commit and integrates it in the documented
+order. The subagent must not commit or integrate changes.
 """
 
     status_content = f"""# Subagent Runtime Status
@@ -228,6 +252,7 @@ Pending main-agent review. The subagent must not commit or integrate changes.
 - Current checkpoint: prepared
 - Agent: unassigned
 - Baseline: {baseline_commit}
+- Branch: {branch}
 - Worktree: {worktree}
 - Last update: {datetime.now(timezone.utc).isoformat()}
 
@@ -256,6 +281,7 @@ None.
     prompt_content = f"""Use the frozen task at `{task_file}`.
 
 Work only in `{worktree}` at baseline `{baseline_commit}`.
+Your isolated branch is `{branch}`.
 
 Allowed write set:
 {markdown_list(f'`{item}`' for item in write_paths)}
@@ -265,6 +291,8 @@ Rules:
 - Do not edit the root task repository.
 - Update `{status_file}` at every checkpoint.
 - Do not commit, merge, rebase, cherry-pick, push, remove files, or clean the worktree.
+- Do not inspect or modify another subagent worktree. Cross-task conflict
+  resolution belongs to the main agent after review.
 - Stop on any documented stop condition or unresolved semantic decision.
 - On a blocker, set state to `blocked`, record evidence and the exact decision needed, then stop.
 - Finish in state `ready-for-review`; completion does not mean acceptance.
@@ -279,18 +307,16 @@ Rules:
         "baseline": baseline_commit,
         "runtime_dir": str(runtime_dir),
         "worktree": str(worktree),
-        "branch": args.branch,
+        "branch": branch,
+        "overlap_with": args.overlap_with,
+        "integration_order": args.integration_order,
         "task_file": str(task_file),
         "status_file": str(status_file),
         "prompt_file": str(prompt_file),
         "allowed_write_set": write_paths,
     }
 
-    worktree_command = ["git", "-C", str(repository), "worktree", "add"]
-    if args.branch:
-        worktree_command.extend(["-b", args.branch])
-    else:
-        worktree_command.append("--detach")
+    worktree_command = ["git", "-C", str(repository), "worktree", "add", "-b", branch]
     worktree_command.extend([str(worktree), baseline_commit])
 
     summary = {
