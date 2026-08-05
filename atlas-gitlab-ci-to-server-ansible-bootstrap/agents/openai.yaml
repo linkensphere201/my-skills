@@ -1,0 +1,4 @@
+interface:
+  display_name: "Atlas GitLab CI Ansible Deploy"
+  short_description: "Publish Atlas CI images and deploy them through Ansible"
+  default_prompt: "Use $atlas-gitlab-ci-to-server-ansible-bootstrap to publish an Atlas commit and deploy it through the target Ansible host."
