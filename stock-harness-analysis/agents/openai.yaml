@@ -1,9 +1,9 @@
 interface:
   display_name: "StockHarness Analysis"
-  short_description: "Analyze active A-share workspaces with local evidence"
+  short_description: "Analyze A-share and futures workspaces with local evidence"
   default_prompt: "Use $stock-harness-analysis to analyze my active StockHarness workspace with dated evidence."
 dependencies:
   tools:
     - type: "mcp"
       value: "stock_harness"
-      description: "Read-only local StockHarness market, collection, and active-workspace tools"
+      description: "Read-only local StockHarness market, futures, trend, collection, and active-workspace tools"
