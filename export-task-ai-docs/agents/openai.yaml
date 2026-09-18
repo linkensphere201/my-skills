@@ -1,0 +1,4 @@
+interface:
+  display_name: "Export Task AI Docs"
+  short_description: "Export verified tasks into English project docs"
+  default_prompt: "Use $export-task-ai-docs to convert a documented task into a verified English AI documentation set under the target project doc directory."
