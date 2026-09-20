@@ -12,6 +12,8 @@
 ```text
 tasks/YYYY-MM-DD-<task-name>/
   README.md
+  worklog.md
+  environment.md
   plan/
     README.md
   findings/
@@ -29,7 +31,6 @@ tasks/YYYY-MM-DD-<task-name>/
 Optional additions:
 
 ```text
-  environment.md
   usage/
     README.md
 ```
@@ -59,6 +60,15 @@ Optional additions:
    - The code-level review may refine, split, downgrade, replace, or overturn the earlier design when code evidence shows that is necessary.
    - Record the code-level review conclusion in the task DOC before coding.
 
+8. Give every formal design point or decision option a stable task-local ID such as `D-001` when it enters the task document, including `proposed` items.
+   - Keep a compact registry in `plan/README.md` or the primary design document.
+   - Never renumber or reuse an ID.
+   - Mark replaced decisions `superseded` and link the replacement instead of silently rewriting history.
+9. Keep a tiered task history in `worklog.md` using stable IDs such as `W-001`.
+   - Log architecture, protocol, lifecycle, persistence, compatibility, public API, safety/correctness, and major milestone changes individually.
+   - Merge naming, formatting, error-message, small-refactor, and related test changes into one checkpoint entry when they serve the same objective.
+   - Do not create a file-by-file activity stream.
+
 ## Code-level design review gate
 
 Before implementing a non-trivial design item, add or update a section under `plan/` or `implement/` that records:
@@ -71,6 +81,23 @@ Before implementing a non-trivial design item, add or update a section under `pl
 - Test impact
 
 Implementation should start only after this review conclusion is recorded.
+
+## Decision status model
+
+- `proposed`
+- `confirmed`
+- `superseded`
+- `rejected`
+
+## Worklog entry fields
+
+- Date
+- Importance: `material` or `checkpoint`
+- Summary
+- Scope or impact
+- Related decisions
+- Related commits, when available
+- Verification
 
 ## Recommended status model
 
@@ -116,6 +143,8 @@ Implementation should start only after this review conclusion is recorded.
   - implementation-oriented notes index
 - [test/README.md](test/README.md)
   - test-oriented notes index
+- [worklog.md](worklog.md)
+  - stable material changes and grouped implementation checkpoints
 
 ## Top findings
 

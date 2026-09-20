@@ -38,6 +38,8 @@ README_TEMPLATE = """# Task: {title}
   - implementation-oriented notes index
 - [test/README.md](test/README.md)
   - test-oriented notes index
+- [worklog.md](worklog.md)
+  - stable material changes and grouped implementation checkpoints
 
 ## Top findings
 
@@ -63,12 +65,60 @@ README_TEMPLATE = """# Task: {title}
 
 SUBDOC_TEMPLATES = {
     "findings/README.md": "# Task Findings\n\n## Scope\n\n- This directory tracks finding-oriented notes for the task.\n",
-    "plan/README.md": "# Task Plans\n\n## Scope\n\n- This directory tracks planning-oriented notes for the task.\n\n## Code-Level Design Review Gate\n\nBefore implementing a non-trivial design item, record:\n\n- Code entrypoints inspected\n- Existing implementation shape\n- Confirmed reuse points\n- Rejected assumptions\n- Final implementation boundary\n- Test impact\n\nImplementation should start only after this review conclusion is recorded. The review may refine, split, downgrade, replace, or overturn an earlier architecture plan when code evidence requires it.\n",
+    "plan/README.md": """# Task Plans
+
+## Scope
+
+- This directory tracks planning-oriented notes for the task.
+
+## Decision registry
+
+| ID | Status | Summary | Supersedes | Detail |
+|---|---|---|---|---|
+
+Formal design points and decision options use stable task-local IDs such as `D-001`, including `proposed` items. Never renumber or reuse an ID; mark replaced decisions `superseded` and link the replacement.
+
+## Code-Level Design Review Gate
+
+Before implementing a non-trivial design item, record:
+
+- Code entrypoints inspected
+- Existing implementation shape
+- Confirmed reuse points
+- Rejected assumptions
+- Final implementation boundary
+- Test impact
+
+Implementation should start only after this review conclusion is recorded. The review may refine, split, downgrade, replace, or overturn an earlier architecture plan when code evidence requires it.
+""",
     "implement/README.md": "# Task Implementation Notes\n\n## Scope\n\n- This directory tracks implementation-oriented notes for the task.\n",
     "test/README.md": "# Task Tests\n\n## Scope\n\n- This directory tracks verification and test notes for the task.\n",
     "test/atlas-test.md": "# Atlas-Test Notes\n\n## Scope\n\n- Record atlas-test execution notes for this task.\n",
     "test/blackbox.md": "# Blackbox Notes\n\n## Scope\n\n- Record blackbox verification notes for this task.\n",
     "environment.md": "# Task Environment\n\n## Scope\n\n- Record environment assumptions, revisions, binary paths, and dependency notes for this task.\n",
+    "worklog.md": """# Task Worklog
+
+## Rules
+
+- Use stable entry IDs such as `W-001`; never renumber or reuse them.
+- Record material changes individually.
+- Merge minor related edits into one checkpoint entry when they serve the same objective.
+- Do not use this file as a line-by-line or file-by-file activity stream.
+
+## Entries
+
+Use this shape for each entry:
+
+### `W-NNN` Short title
+
+- Date:
+- Importance: `material` or `checkpoint`
+- Summary:
+- Scope or impact:
+- Related decisions:
+- Related commits:
+- Verification:
+""",
 }
 
 

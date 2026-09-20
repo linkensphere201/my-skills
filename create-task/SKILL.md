@@ -32,6 +32,7 @@ The generated directory name should be:
    - `test/atlas-test.md`
    - `test/blackbox.md`
    - `environment.md`
+   - `worklog.md`
 4. Fill the files using the bundled task template structure.
 5. Append a concise entry to `atlas-ai-docs/tasks.md`.
 
@@ -43,6 +44,10 @@ The generated directory name should be:
 - Keep `tasks.md` concise when updating the index.
 - Do not overwrite an existing task directory.
 - Match the bundled template layout rather than creating a reduced scaffold.
+- Initialize a decision registry in `plan/README.md`. Every formal design point or decision option receives a stable task-local ID such as `D-001` when it enters the task document, including `proposed` items; never renumber or reuse IDs. Mark replaced decisions `superseded` and link the replacement.
+- Initialize `worklog.md`. Material architecture, protocol, lifecycle, persistence, compatibility, public API, safety/correctness, and milestone changes receive individual `W-NNN` entries.
+- Merge minor related edits into one checkpoint worklog entry when they serve the same objective; do not log each file edit separately.
+- Each worklog entry records date, importance, summary, scope or impact, related decisions, related commits when available, and verification status.
 
 ## Template Source
 
