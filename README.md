@@ -22,9 +22,11 @@
 - [list-all-tasks/SKILL.md](list-all-tasks/SKILL.md)
   - list all documented tasks with status, summary, and unfinished items in one compact table
 - [create-task/SKILL.md](create-task/SKILL.md)
-  - create a new task document scaffold under `atlas-ai-docs/tasks/` using the project task layout
+  - create a new project task directory from `project-template/` in the project-manager workspace
 - [win-commit-message-writer/SKILL.md](win-commit-message-writer/SKILL.md)
   - write accurate commit messages from staged or working diffs while respecting repository boundaries
+- [start-subagent-task/SKILL.md](start-subagent-task/SKILL.md)
+  - prepare and run review-gated, branch-isolated subagent tasks in Windows project workspaces
 
 ## Recommended structure
 

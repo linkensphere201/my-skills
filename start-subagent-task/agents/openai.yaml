@@ -1,0 +1,4 @@
+interface:
+  display_name: "启动子 Agent 任务"
+  short_description: "Launch branch-isolated parallel subagent work"
+  default_prompt: "Use $start-subagent-task to freeze, document, and launch branch-isolated subagent work for later main-agent review and conflict-aware integration."

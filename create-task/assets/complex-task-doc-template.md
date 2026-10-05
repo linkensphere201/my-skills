@@ -17,6 +17,7 @@ YYYY-MM-DD-project-name/
     active.md
     backlog.md
     decisions.md
+    milestones.md
   prompts/
     reusable-prompts.md
   logs/
@@ -57,7 +58,7 @@ This project is for <one-line purpose>.
 
 ## In Progress
 
-- [ ] Task: <active task>
+- [ ] `M1.1.1` <active task>
   Owner: hp + Codex
   Next step: <next step>
 
@@ -67,8 +68,35 @@ This project is for <one-line purpose>.
 
 ## Recently Completed
 
-- [x] Initialized the <project> project directory
+- [x] `M1` Initialized milestone and task numbering
 ```
+
+## milestones.md Shape
+
+```md
+# Milestone Register
+
+## Complexity
+
+- Classification: Complex
+- Planning gate: Approved
+
+## Milestones
+
+| ID | Name | Goal | Acceptance target | Status |
+|---|---|---|---|---|
+| `M1` | <milestone> | <goal> | <acceptance> | Planning |
+| `M2` | <milestone> | <goal> | <acceptance> | Pending |
+
+## Decomposition
+
+### M1
+
+- [ ] `M1.1` <subgoal>
+  - [ ] `M1.1.1` <executable task>
+```
+
+Complex tasks must define the complete known `M1` through `Mn` sequence and milestone acceptance targets before implementation. IDs become immutable once progress is recorded.
 
 ## decisions.md Shape
 
@@ -79,7 +107,7 @@ This project is for <one-line purpose>.
 
 ### YYYY-MM-DD
 
-- Decision: Manage <project> as a separate project.
+- Decision [`M1` or most specific task ID]: Manage <project> as a separate project.
 - Reason: <why this needs its own directory>
 - Impact: Related materials will be maintained under `<directory>/`.
 ```

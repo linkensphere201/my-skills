@@ -1,4 +1,4 @@
 interface:
   display_name: "Create Project Task"
-  short_description: "Create a project-manager task directory"
-  default_prompt: "Use $create-task to create a new project task directory from project-template and update the workspace indexes."
+  short_description: "Create a strictly numbered project task"
+  default_prompt: "Use $create-task to create a numbered project task, define milestones for complex work, and update the workspace indexes."

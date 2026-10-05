@@ -10,7 +10,7 @@ from pathlib import Path
 
 
 DIRECTORY_GUIDE = """- `context/`: project background, system assumptions, glossary, architecture, and research notes.
-- `tasks/`: active work, backlog items, and key decisions.
+- `tasks/`: milestone register, numbered active work, backlog items, and key decisions.
 - `prompts/`: reusable prompts.
 - `logs/`: chronological project work notes."""
 
@@ -57,13 +57,15 @@ This project is for {description}.
 
 ## Current Goals
 
-- Define the first useful scope and success criteria.
+- Classify the project as simple or complex and approve the milestone plan.
+- Define the first useful scope and success criteria using stable milestone and task IDs.
 - Research the minimum viable workflow and core constraints.
 - Build a lightweight project plan that can guide implementation.
 
 ## Initial Scope
 
 - Start with a small, reviewable first version.
+- For complex work, define the complete known `M1` through `Mn` sequence before implementation.
 - Keep the project self-contained inside `{dir_name}/`.
 - Record stable background in `context/` and active status in `tasks/`.
 
@@ -100,6 +102,8 @@ The first phase should clarify the problem, define a minimum useful workflow, an
 
 ## Key Questions
 
+- Is this project simple or complex?
+- What are the complete known milestones `M1` through `Mn`?
 - What is the smallest useful version of this project?
 - Which inputs and outputs are required for the first workflow?
 - What risks or constraints need to be handled early?
@@ -148,17 +152,53 @@ The architecture is not finalized yet. The first pass should describe the minimu
         "context/glossary.md": f"""# Glossary
 
 - Project: the self-contained work tracked under `{dir_name}/`.
+- Milestone ID: an immutable `M<n>` identifier for an independently acceptable delivery.
+- Task ID: an immutable hierarchical identifier such as `M1.1` or `M1.1.1`.
 - MVP: the smallest version that can validate the core workflow.
 - Signal: evidence that helps decide what to build or change next.
 - Review loop: the process of checking outputs and improving the workflow.
+""",
+        "tasks/milestones.md": f"""# Milestone Register
+
+## Complexity
+
+- Classification: Pending
+- Planning gate: Pending
+
+Complex projects must define the complete known milestone sequence `M1` through `Mn` and approve milestone acceptance targets before implementation begins.
+
+## Numbering Contract
+
+- `M<n>`: milestone.
+- `M<n>.<s>`: stable subgoal or work package.
+- `M<n>.<s>.<t>`: executable task.
+- Add a fourth numeric level only when required.
+- Never renumber or reuse an ID after implementation or progress reporting begins.
+- Keep cancelled or superseded IDs and mark their final state.
+- Reference the most specific applicable ID in every progress record.
+
+## Milestones
+
+| ID | Name | Goal | Acceptance target | Status |
+|---|---|---|---|---|
+| `M1` | First useful delivery | Define the first independently acceptable project outcome. | Define measurable acceptance before implementation. | Planning |
+
+## Decomposition
+
+### M1
+
+- [ ] `M1.1` Define and approve the first milestone plan.
+  - [ ] `M1.1.1` Classify the project and define the complete known milestone sequence.
+  - [ ] `M1.1.2` Define milestone goals and acceptance targets.
+  - [ ] `M1.1.3` Decompose the active milestone into executable tasks.
 """,
         "tasks/active.md": f"""# Active Tasks
 
 ## In Progress
 
-- [ ] Task: {active_goal}
+- [ ] `M1.1.1` {active_goal}
   Owner: {owner}
-  Next step: Define the first workflow, required inputs, output shape, and validation criteria
+  Next step: Classify project complexity and define the complete known milestone sequence
 
 ## Blocked
 
@@ -166,23 +206,27 @@ The architecture is not finalized yet. The first pass should describe the minimu
 
 ## Recently Completed
 
-- [x] Initialized the {title} project directory
+- [x] `M1` Initialized the {title} project directory and numbering contract
 """,
         "tasks/backlog.md": f"""# Backlog
 
-- [ ] Define the first workflow
+- [ ] `M1.1` Define and approve the milestone plan
   Priority: High
-  Notes: Identify the smallest useful input-process-output loop
+  Notes: Complex work must define `M1` through `Mn` before implementation
 
-- [ ] Define the output schema
+- [ ] `M1.1.2` Define milestone goals and acceptance targets
   Priority: High
-  Notes: Make results easy to inspect, compare, and improve
+  Notes: Make every milestone independently reviewable
 
-- [ ] Research comparable tools or workflows
+- [ ] `M1.1.3` Decompose the active milestone into executable tasks
+  Priority: High
+  Notes: Use immutable hierarchical IDs such as `M1.2.1`
+
+- [ ] `M1.2` Research comparable tools or workflows
   Priority: Medium
   Notes: Extract patterns worth borrowing and risks to avoid
 
-- [ ] Decide the first implementation shape
+- [ ] `M1.3` Decide the first implementation shape
   Priority: Medium
   Notes: Compare document-only, script, CLI, local web app, or hosted app options
 """,
@@ -192,7 +236,7 @@ The architecture is not finalized yet. The first pass should describe the minimu
 
 ### {today}
 
-- Decision: Manage {title} as a separate project.
+- Decision [`M1`]: Manage {title} as a separate project.
 - Reason: The work has its own context, tasks, decisions, and implementation path.
 - Impact: Related materials will be maintained under `{dir_name}/`.
 """,
@@ -200,8 +244,8 @@ The architecture is not finalized yet. The first pass should describe the minimu
 
 ## {today}
 
-- Created `{dir_name}/` from `project-template/`.
-- Initialized project documentation for {description}.
+- [`M1`] Created `{dir_name}/` from `project-template/`.
+- [`M1.1.1`] Initialized project documentation and the milestone planning gate for {description}.
 """,
         "prompts/reusable-prompts.md": f"""# Reusable Prompts
 
