@@ -28,7 +28,7 @@ The generated directory name should be:
 3. Use the current date as the directory prefix unless the user gives a date.
 4. Classify the work as simple or complex from its scope, dependencies, duration, and number of independently acceptable deliveries.
 5. For complex work, discuss and define the complete known milestone sequence `M1` through `Mn` before implementation begins.
-6. Copy `project-template/` into the new project directory.
+6. Initialize the pinned `project-template/` submodule when needed, then use its generator. Never copy its `.git` file or directory.
 7. Initialize the project docs in English unless the user explicitly asks for another language:
    - `README.md`
    - `context/project-overview.md`
@@ -69,6 +69,9 @@ Do not start implementation for a complex task until:
 ## Rules
 
 - Use `project-template/` as the structural source.
+- Project document contents and placeholder rendering belong to the template repository. The skill script delegates to `project-template/scripts/create_project.py`; do not reintroduce embedded document definitions here.
+- For an uninitialized submodule, run `git submodule update --init --recursive`. Never silently update to a remote branch tip.
+- Generated projects record source version/commit in `.template-source.json`; existing projects are not updated automatically.
 - Do not create `atlas-ai-docs/`.
 - Do not overwrite an existing project directory.
 - Do not treat `skills/` as a normal project folder.
@@ -79,7 +82,7 @@ Do not start implementation for a complex task until:
 
 ## Script
 
-Use `scripts/create_task.py` for deterministic project creation.
+Use `scripts/create_task.py` as the compatibility entry point for deterministic project creation. It requires the template-owned generator (v1.0.0 or later). For another checkout, pass `--template-dir <path>`; existing `--project-root`, `--date`, `--owner`, `--goal`, and `--no-index` options remain supported.
 
 Example:
 
