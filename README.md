@@ -23,6 +23,8 @@
   - list all documented tasks with status, summary, and unfinished items in one compact table
 - [create-task/SKILL.md](create-task/SKILL.md)
   - create a new project task directory from `project-template/` in the project-manager workspace
+- [sync-project-template/SKILL.md](sync-project-template/SKILL.md)
+  - preview and selectively adopt versioned template rules and components while preserving project customizations
 - [win-commit-message-writer/SKILL.md](win-commit-message-writer/SKILL.md)
   - write accurate commit messages from staged or working diffs while respecting repository boundaries
 - [start-subagent-task/SKILL.md](start-subagent-task/SKILL.md)

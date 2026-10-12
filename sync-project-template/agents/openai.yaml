@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sync Project Template"
+  short_description: "Review and selectively adopt versioned template changes"
+  default_prompt: "Use $sync-project-template to compare this project with a specified template version and preview safe upgrades before applying them."
